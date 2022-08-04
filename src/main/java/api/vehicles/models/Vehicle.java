@@ -6,16 +6,16 @@ public abstract class Vehicle {
 
     @Id
     private String id;
-    private int anoModelo;
-    private int anoFabricacao;
-    private int valor;
     private String modelo;
+    private Integer anoModelo;
+    private Integer anoFabricacao;
+    private Integer valor;
     private String consumo;
     private String motor;
 
     protected Vehicle() {
     }
-    protected Vehicle(String id, int anoModelo, int anoFabricacao, int valor, String modelo, String consumo, String motor) {
+    protected Vehicle(String id, Integer anoModelo, Integer anoFabricacao, Integer valor, String modelo, String consumo, String motor) {
         this.id = id;
         this.anoModelo = anoModelo;
         this.anoFabricacao = anoFabricacao;
@@ -41,27 +41,27 @@ public abstract class Vehicle {
         this.motor = motor;
     }
 
-    public int getAnoModelo() {
+    public Integer getAnoModelo() {
         return anoModelo;
     }
 
-    public void setAnoModelo(int anoModelo) {
+    public void setAnoModelo(Integer anoModelo) {
         this.anoModelo = anoModelo;
     }
 
-    public int getAnoFabricacao() {
+    public Integer getAnoFabricacao() {
         return anoFabricacao;
     }
 
-    public void setAnoFabricacao(int anoFabricacao) {
+    public void setAnoFabricacao(Integer anoFabricacao) {
         this.anoFabricacao = anoFabricacao;
     }
 
-    public int getValor() {
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 

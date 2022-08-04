@@ -1,58 +1,62 @@
 package api.vehicles.dtos;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public abstract class VehicleDto {
 
-    private String id;
+//    private String id;
 
-    @NotNull
-    private int anoModelo;
-
-    @NotNull
-    private int anoFabricacao;
-
-    @NotNull
-    private int valor;
-
-    @NotNull
+    @NotBlank(message = "O campo precisa ser preenchido")
     private String modelo;
+    @NotNull(message = "O campo precisa ser preenchido")
+    @Min(value = 1990, message = "O ano do modelo nao pode ser inferior a 1990")
+    private Integer anoModelo;
 
-    @NotNull
+    @NotNull(message = "O campo precisa ser preenchido")
+    @Min(value = 1990, message = "O ano de fabricaçao nao pode ser inferior a 1990")
+    private Integer anoFabricacao;
+
+    @NotNull(message = "O campo precisa ser preenchido")
+    @Min(value = 1, message = "Valor precisa ser superior a zero")
+    private Integer valor;
+
+    @NotBlank(message = "O campo precisa ser preenchido")
     private String consumo;
 
-    @NotNull
+    @NotBlank(message = "O campo precisa ser preenchido")
     private String motor;
 
-    public String getId() {
-        return id;
-    }
+//    public String getId() {
+//        return id;
+//    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
-    public int getAnoModelo() {
+    public Integer getAnoModelo() {
         return anoModelo;
     }
 
-    public void setAnoModelo(int anoModelo) {
+    public void setAnoModelo(Integer anoModelo) {
         this.anoModelo = anoModelo;
     }
 
-    public int getAnoFabricacao() {
+    public Integer getAnoFabricacao() {
         return anoFabricacao;
     }
 
-    public void setAnoFabricacao(int anoFabricacao) {
+    public void setAnoFabricacao(Integer anoFabricacao) {
         this.anoFabricacao = anoFabricacao;
     }
 
-    public int getValor() {
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 

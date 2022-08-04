@@ -3,48 +3,47 @@ package api.vehicles.dtos;
 import javax.validation.constraints.NotNull;
 
 public class CargoDto extends VehicleDto{
+    @NotNull(message = "O campo precisa ser preenchido")
+    private Integer cargaMax;
 
-    @NotNull
-    private int cargaMax;
+    @NotNull(message = "O campo precisa ser preenchido")
+    private Integer largura;
 
-    @NotNull
-    private int largura;
+    @NotNull(message = "O campo precisa ser preenchido")
+    private Integer comprimento;
 
-    @NotNull
-    private int comprimento;
+    @NotNull(message = "O campo precisa ser preenchido")
+    private Integer altura;
 
-    @NotNull
-    private int altura;
-
-    public int getCargaMax() {
+    public Integer getCargaMax() {
         return cargaMax;
     }
 
-    public void setCargaMax(int cargaMax) {
+    public void setCargaMax(Integer cargaMax) {
         this.cargaMax = cargaMax;
     }
 
-    public int getLargura() {
+    public Integer getLargura() {
         return largura;
     }
 
-    public void setLargura(int largura) {
+    public void setLargura(Integer largura) {
         this.largura = largura;
     }
 
-    public int getComprimento() {
+    public Integer getComprimento() {
         return comprimento;
     }
 
-    public void setComprimento(int comprimento) {
+    public void setComprimento(Integer comprimento) {
         this.comprimento = comprimento;
     }
 
-    public int getAltura() {
+    public Integer getAltura() {
         return altura;
     }
 
-    public void setAltura(int altura) {
+    public void setAltura(Integer altura) {
         this.altura = altura;
     }
 }
