@@ -8,10 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.BindingResultUtils;
 
+import javax.validation.constraints.AssertFalse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class LaisureServiceImplTest {
@@ -32,41 +31,40 @@ class LaisureServiceImplTest {
     LaisureRepository laisureRepository;
 
     @InjectMocks
-    LaisureServiceImpl laisureservice;
+    LaisureServiceImpl laisureService;
 
     @Test
     void deleteById() {
-        laisureservice.deleteById(anyString());
+        laisureService.deleteById(anyString());
         verify(laisureRepository).deleteById(anyString());
     }
 
     @Test
     void findById() {
         when(laisureRepository.findById(anyString())).thenReturn(Optional.of(laisure));
-        Laisure foundLaisure = laisureservice.findById(anyString());
+        Laisure foundLaisure = laisureService.findById(anyString());
         assertThat(foundLaisure).isNotNull();
         verify(laisureRepository).findById(anyString());
     }
 
     @Test
     void findAll() {
-        List<Laisure> laisureList = new ArrayList<>();
-        laisureList.add(laisure);
-        List<Laisure> foundLaisureList = laisureservice.findAll();
+        List<Laisure> foundLaisureList = laisureService.findAll();
+        assertThat(foundLaisureList).isNotNull();
         verify(laisureRepository).findAll();
     }
 
     @Test
     void save() {
         when(laisureRepository.findById(anyString())).thenReturn(Optional.of(laisure));
-        laisureservice.update(anyString(), laisureDto);
+        laisureService.update(anyString(), laisureDto);
         verify(laisureRepository).save(any(Laisure.class));
     }
 
     @Test
     void insert() {
         when(laisureRepository.save(any(Laisure.class))).thenReturn(laisure);
-        laisureservice.insert(new LaisureDto());
+        laisureService.insert(new LaisureDto());
         verify(laisureRepository).save(any(Laisure.class));
     }
 }

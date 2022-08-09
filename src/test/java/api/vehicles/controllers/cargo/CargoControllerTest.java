@@ -9,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -28,12 +26,12 @@ class CargoControllerTest {
 
     @InjectMocks
     CargoController cargoController;
-    List<Cargo> cargoList = new ArrayList<>();
+//    List<Cargo> cargoList = new ArrayList<>();
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        cargoList.add(new Cargo());
+//        cargoList.add(new Cargo());
 //        given(cargoService.findAll()).willReturn(cargoList);
         mockMvc = MockMvcBuilders.standaloneSetup(cargoController).build();
     }
@@ -41,7 +39,8 @@ class CargoControllerTest {
     @Test
     void testControllerShowCargoList() throws Exception {
         mockMvc.perform(get("/cargo"))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string("[]"));
     }
 
     @Test
@@ -57,11 +56,16 @@ class CargoControllerTest {
                     .param("largura", "250")
                     .param("comprimento", "1200")
                     .param("altura", "210"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        "[{\"" +
+                                "field\":\"Sucesso\",\"" +
+                                "defaultMessage\":\"OperaÃ§ao realizada com sucesso!\"}]"));
+
     }
 
     @Test
-    void insertWithErrors() throws Exception {
+    void insertWithAnoModeloError() throws Exception {
         mockMvc.perform(post("/cargo")
                         .param("anoModelo", "1989")
                         .param("anoFabricacao", "1991")
@@ -73,7 +77,31 @@ class CargoControllerTest {
                         .param("largura", "250")
                         .param("comprimento", "1200")
                         .param("altura", "210"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        "[{\"" +
+                                "field\":\"anoModelo\",\"" +
+                                "defaultMessage\":\"O ano do modelo nao pode ser " + "inferior a 1990\"}]"));
+    }
+
+    @Test
+    void insertWithEmptyModeloField() throws Exception {
+        mockMvc.perform(post("/cargo")
+                        .param("anoModelo", "2000")
+                        .param("anoFabricacao", "1991")
+                        .param("valor", "15000")
+                        .param("modelo", "")
+                        .param("consumo", "5")
+                        .param("motor", "3.4")
+                        .param("cargaMax", "200")
+                        .param("largura", "250")
+                        .param("comprimento", "1200")
+                        .param("altura", "210"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        "[{\"" +
+                                "field\":\"modelo\",\"" +
+                                "defaultMessage\":\"O campo precisa ser preenchido\"}]"));
     }
 
     @Test
@@ -84,12 +112,12 @@ class CargoControllerTest {
 
     @Test
     void findById() throws Exception {
-        mockMvc.perform(get("/cargo/12345"))
+        mockMvc.perform(get("/cargo/6"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void update() throws Exception {
+    void updateWithAnoModeloError() throws Exception {
         mockMvc.perform(post("/cargo/1")
                 .param("anoModelo", "1989")
                 .param("anoFabricacao", "1991")
@@ -101,10 +129,54 @@ class CargoControllerTest {
                 .param("largura", "250")
                 .param("comprimento", "1200")
                 .param("altura", "210"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        "[{\"" +
+                                "field\":\"anoModelo\",\"" +
+                                "defaultMessage\":\"O ano do modelo nao pode ser " + "inferior a 1990\"}]"));
     }
 
     @Test
-    void deleteById() {
+    void updateWithCorrectFields() throws Exception {
+        mockMvc.perform(post("/cargo/1")
+                        .param("anoModelo", "1990")
+                        .param("anoFabricacao", "1991")
+                        .param("valor", "15000")
+                        .param("modelo", "Furgao")
+                        .param("consumo", "5")
+                        .param("motor", "3.4")
+                        .param("cargaMax", "200")
+                        .param("largura", "250")
+                        .param("comprimento", "1200")
+                        .param("altura", "210"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[{\"" +
+                        "field\":\"Sucesso\",\"" +
+                        "defaultMessage\":\"OperaÃ§ao realizada com sucesso!\"}]"));
+    }
+
+    @Test
+    void updateWithEmptyField() throws Exception {
+        mockMvc.perform(post("/cargo/1")
+                        .param("anoModelo", "1990")
+                        .param("anoFabricacao", "1991")
+                        .param("valor", "15000")
+                        .param("modelo", "Furgao")
+                        .param("consumo", "5")
+                        .param("motor", "")
+                        .param("cargaMax", "200")
+                        .param("largura", "250")
+                        .param("comprimento", "1200")
+                        .param("altura", "210"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[{\"" +
+                        "field\":\"motor\",\"" +
+                        "defaultMessage\":\"O campo precisa ser preenchido\"}]"));
+    }
+
+    @Test
+    void deleteById() throws Exception {
+        mockMvc.perform(get("/cargo/delete/1"))
+                .andExpect(status().isOk());
     }
 }

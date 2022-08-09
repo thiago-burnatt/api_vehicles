@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ class CargoServiceImplTest {
 
     @InjectMocks
     CargoServiceImpl cargoService;
-    BindingResult bindingResult;
 
     //TDD Tests
 
